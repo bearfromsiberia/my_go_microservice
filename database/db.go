@@ -12,7 +12,6 @@ import (
 func New(storagePath string) (*gorm.DB, error) {
 	const op = "storage.sqlite.New"
 
-	// Открытие базы данных SQLite
 	db, err := gorm.Open(sqlite.Open(storagePath), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent), // Отключаем логи
 	})
@@ -20,8 +19,7 @@ func New(storagePath string) (*gorm.DB, error) {
 		return nil, fmt.Errorf("%s: %w", op, err)
 	}
 
-	// Миграция схемы для создания таблицы
-	err = db.AutoMigrate(&User{})
+	err = db.AutoMigrate(&Product{})
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", op, err)
 	}
@@ -29,10 +27,9 @@ func New(storagePath string) (*gorm.DB, error) {
 	return db, nil
 }
 
-// Структура для базы данных
-type User struct {
-	ID        int       `json:"ID" gorm:"primaryKey"`
-	Login     string    `json:"login"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"CreatedAt"` // Используйте time.Time
+type Product struct {
+	ID           int       `json:"ID" gorm:"primaryKey"`
+	Product_name string    `json:"product_name"`
+	Cost         string    `json:"cost"`
+	CreatedAt    time.Time `json:"CreatedAt"` // Используйте time.Time
 }

@@ -18,8 +18,6 @@ WORKDIR /root/
 
 COPY --from=builder /app/main .
 
-RUN ls -la /root/main # Проверяем, что файл копируется
-
 EXPOSE 8080
 
 CMD ["./main"]
